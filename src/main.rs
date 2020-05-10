@@ -1,11 +1,8 @@
 mod classifier;
-use classifier::{
-    ClassificationMethod::{AngularDistance, VectorProjection},
-    Classifier, ModelFormat,
-};
+use classifier::{ClassificationMethod::VectorProjection, Classifier, ModelFormat};
 
-const _DEEP_ROLES_CSV: &str = "assets/deep_roles.csv";
-const DEEP_ROLES_JSON: &str = "assets/deep_roles.json";
+const _DEEP_ROLES_CSV: &str = "assets/archetypes.csv";
+const DEEP_ROLES_JSON: &str = "assets/archetypes.json";
 const EXAMPLE_CSV: &str = "assets/profiles/example.csv";
 fn main() {
     let classifier = Classifier::new(ModelFormat::Json(DEEP_ROLES_JSON));

@@ -122,12 +122,12 @@ pub fn load_deeproles_csv(file_path: &str) -> Vec<DeepRole> {
 
 pub fn parse_to_hashmap(file_path: &str) -> Vec<HashMap<String, String>> {
     let deep_role_csv = std::fs::File::open(file_path)
-        .expect("the deep_role.csv model should be in the same folder as the executable");
+        .expect("the archetypes.csv model should be in the same folder as the executable");
     let file_reader = std::io::BufReader::new(deep_role_csv);
     let mut csv_reader = Reader::from_reader(file_reader);
     let mut hashmaps: Vec<HashMap<String, String>> = vec![];
     for r in csv_reader.deserialize() {
-        let record: HashMap<String, String> = r.expect("error in deep_role csv format");
+        let record: HashMap<String, String> = r.expect("error in archetypes csv format");
         hashmaps.push(record);
     }
     hashmaps
@@ -142,7 +142,7 @@ fn prime_deep_roles(records: Vec<HashMap<String, String>>) -> Vec<DeepRole> {
             .map(|(k, v)| {
                 let parsed = match v.parse() {
                     Ok(val) => val,
-                    Err(_) => panic!("could not parse value {} for deep_role {}", k, name),
+                    Err(_) => panic!("could not parse value {} for archetype {}", k, name),
                 };
                 (k, parsed)
             })

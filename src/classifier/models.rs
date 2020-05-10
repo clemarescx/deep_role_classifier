@@ -33,14 +33,8 @@ impl DeepRole {
     pub fn angle(&self, other: &DeepRole) -> f32 {
         let cos_theta = self.cos_theta(other);
         let angle_rad = match cos_theta {
-            x if x > 1.0 => {
-                println!("cos_theta over 1.0");
-                1f32.acos()
-            }
-            x if x < -1.0 => {
-                println!("cos_theta under -1.0");
-                (-1f32).acos()
-            }
+            x if x > 1.0 => 1f32.acos(),
+            x if x < -1.0 => (-1f32).acos(),
             _ => cos_theta.acos(),
         };
         angle_rad
@@ -69,18 +63,18 @@ impl DeepRole {
     }
 }
 
-fn rad_to_deg(rad: f32) -> f32 {
-    rad * 180. / std::f32::consts::PI
-}
-
 #[cfg(test)]
 mod tests {
-    use super::{rad_to_deg, DeepRole};
+    use super::DeepRole;
     use crate::{
         classifier::{Classifier, ModelFormat},
         DEEP_ROLES_JSON,
     };
     use std::collections::HashMap;
+
+    fn rad_to_deg(rad: f32) -> f32 {
+        rad * 180. / std::f32::consts::PI
+    }
 
     fn into_hashmap(kvps: &[(&str, f32)]) -> HashMap<String, f32> {
         kvps.iter().fold(HashMap::new(), |mut acc, (k, v)| {
@@ -99,9 +93,11 @@ mod tests {
 
     #[test]
     fn angle_with_self_is_zero_2() {
-        let arch = DeepRole {
-            name: "test".to_string(),
-            facets: into_hashmap(&[("x", 1f32), ("y", 1f32)]),
+        let arch = {
+            DeepRole {
+                name: "test".to_string(),
+                facets: into_hashmap(&[("x", 1f32), ("y", 1f32)]),
+            }
         };
         let angle = arch.angle(&arch);
         assert!(angle <= f32::EPSILON)

@@ -1,5 +1,5 @@
 [package]
-name = "archetypes"
+name = "deep_role_classifier"
 version = "0.1.0"
 authors = ["Clément Marescaux <cmarescaux@hotmail.com>"]
 edition = "2018"
