@@ -32,12 +32,11 @@ impl DeepRole {
 
     pub fn angle(&self, other: &DeepRole) -> f32 {
         let cos_theta = self.cos_theta(other);
-        let angle_rad = match cos_theta {
+        match cos_theta {
             x if x > 1.0 => 1f32.acos(),
             x if x < -1.0 => (-1f32).acos(),
             _ => cos_theta.acos(),
-        };
-        angle_rad
+        }
     }
 
     pub fn dot(&self, other: &Self) -> f32 {
@@ -55,10 +54,10 @@ impl DeepRole {
         let mag = self.magnitude();
         if mag > 0.0 {
             for v in self.facets.values_mut() {
-                *v = *v / mag;
+                *v /= mag;
             }
         } else {
-            panic!(format!("vector of {} has a magnitude of 0", self.name))
+            panic!("vector of {} has a magnitude of 0", self.name)
         }
     }
 }
