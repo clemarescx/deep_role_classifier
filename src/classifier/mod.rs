@@ -84,20 +84,18 @@ impl Classifier {
 }
 fn vector_projection(profile: &DeepRole, archetype: &DeepRole) -> Rank {
     let scale = profile.dot(archetype);
-    let rank = Rank {
+    Rank {
         name: archetype.name.clone(),
         rank: scale,
-    };
-    rank
+    }
 }
 
 fn angular_distance(profile: &DeepRole, archetype: &DeepRole) -> Rank {
     let angle = archetype.angle(profile);
-    let rank = Rank {
+    Rank {
         name: archetype.name.clone(),
         rank: 1. / angle,
-    };
-    rank
+    }
 }
 
 pub fn load_deeproles_json(file_path: &str) -> Vec<DeepRole> {
@@ -154,17 +152,14 @@ fn prime_deep_roles(records: Vec<HashMap<String, String>>) -> Vec<DeepRole> {
 }
 
 #[allow(dead_code)]
-pub fn hashmap_to_json(records: &Vec<HashMap<String, String>>) -> String {
+pub fn hashmap_to_json(records: &[HashMap<String, String>]) -> String {
     let mut json: Vec<String> = vec![];
     for record in records {
         let name = &record["name"];
         let mut facets: Vec<String> = vec![];
         for (attribute, value) in record.iter().filter(|&(k, _)| k != "name") {
-            match value.parse::<i16>() {
-                Ok(val) => {
-                    facets.push(format!("\"{}\":{}", attribute, val));
-                }
-                _ => (),
+            if let Ok(val) = value.parse::<i16>() {
+                facets.push(format!("\"{}\":{}", attribute, val));
             }
         }
         let arch_object = facets.join(",");

@@ -86,7 +86,7 @@ mod tests {
     fn angle_with_self_is_zero() {
         let classifier = Classifier::new(ModelFormat::Json(DEEP_ROLES_JSON));
         let arch = &classifier.archetypes[0];
-        let angle = arch.angle(&arch);
+        let angle = arch.angle(arch);
         assert!(angle <= f32::EPSILON);
     }
 
@@ -120,7 +120,7 @@ mod tests {
     fn dot_with_self_equals_magnitude_squared() {
         let classifier = Classifier::new(ModelFormat::Json(DEEP_ROLES_JSON));
         let arch = &classifier.archetypes[0];
-        let dot = arch.dot(&arch);
+        let dot = arch.dot(arch);
         let mag = arch.magnitude();
         let mag_squared = mag * mag;
         assert!((mag_squared - dot).abs() <= f32::EPSILON);
